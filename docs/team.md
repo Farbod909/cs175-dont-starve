@@ -6,11 +6,11 @@ title:  Team
 # {{ page.title }}
 
 
-## USER 1
-***UCI Net ID***: ucinetid1
+## Brandon Cabrera Marquez
+***UCI Net ID***: cabrerb1
 
-## USER 2
-***UCI Net ID***: ucinetid2
+## Nicholas Sprague
+***UCI Net ID***: nsprague
 
-## USER 3
-***UCI Net ID***: ucinetid3
+## Farbod Rafezy
+***UCI Net ID***: frafezy
