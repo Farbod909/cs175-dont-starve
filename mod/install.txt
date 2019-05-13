@@ -1,3 +1,0 @@
-To install the mod, just copy it to Malmo\Minecraft\run\mods
-
-If it's working properly, it will be in the list of mods from the main menu when you launch the game.
