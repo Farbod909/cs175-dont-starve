@@ -13,6 +13,11 @@ else:
     import functools
     print = functools.partial(print, flush=True)
 
+farm_size = 0
+while farm_size % 2 == 0 or 3 > farm_size or 17 < farm_size:
+    print("Input farm size (odd number, 17 max): ")
+    farm_size = int(input())
+
 missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
             <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             
@@ -61,9 +66,13 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                   <InventoryCommands/>
                   <ObservationFromFullStats/>
                   <ObservationFromGrid>
-                      <Grid name="crop5x5">
+                      <Grid name="croplocal">
                         <min x="-2" y="0" z="-2"/>
                         <max x="2" y="1" z="2"/>
+                      </Grid>
+                      <Grid name="cropfull">
+                        <min x="-8" y="1" z="-8"/>
+                        <max x="8" y="1" z="8"/>
                       </Grid>
                   </ObservationFromGrid>
                   <ObservationFromFullInventory/>
@@ -136,9 +145,9 @@ direction = "none"
 planting = False
 
 # Loop until mission ends:
-while stage < 4: #while world_state.is_mission_running:
+while stage < 5: #while world_state.is_mission_running:
     print(".", end="")
-    time.sleep(0.05)
+    time.sleep(0.1)
     world_state = agent_host.getWorldState()
     while len(world_state.observations) == 0:
         time.sleep(.1)
@@ -148,7 +157,7 @@ while stage < 4: #while world_state.is_mission_running:
         
     msg = world_state.observations[-1].text
     observations = json.loads(msg)
-    grid = observations.get(u'crop5x5', 0)
+    grid = observations.get(u'croplocal', 0)
 
     #because farmland is not a full block, the grid observations sometimes include the ground, so we remove it
     if grid[0] == "stone" or grid[0] == "grass" or grid[0] == "farmland" or grid[0] == "water":
@@ -195,13 +204,20 @@ while stage < 4: #while world_state.is_mission_running:
         time.sleep(1)
         agent_host.sendCommand("chat /gamerule randomTickSpeed 1")
         time.sleep(.1)
-        agent_host.sendCommand("chat /fill -8 227 -8 8 227 8 air 0 destroy") #this needs to vary if the size of the field changes
-        time.sleep(.1)
-        agent_host.sendCommand("chat /tp @e[type=item] @p")
-        time.sleep(1)
+        agent_host.sendCommand("chat /tp 0 ~ 0")
+        time.sleep(.5)
 
-    elif stage == 3: #counting reward
+    elif stage == 3:
         stage = 4
+        full_grid = observations.get(u'cropfull', 0)
+        print("Full grid: " + str(full_grid))
+        agent_host.sendCommand("chat /fill -8 227 -8 8 227 8 air 0 destroy") #this needs to vary if the size of the field changes
+        time.sleep(10)
+        agent_host.sendCommand("chat /tp @e[type=item] @p")
+        time.sleep(2)
+
+    elif stage == 4: #counting reward
+        stage = 5
         wheat, carrot, potato, beetroot = 0, 0, 0, 0
         for i in range(0,41):
             item = observations.get(u'InventorySlot_'+str(i)+'_item', 0)
