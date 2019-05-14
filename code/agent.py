@@ -4,6 +4,8 @@ import MalmoPython
 import os
 import sys
 import time
+import json
+import random
 
 if sys.version_info[0] == 2:
     sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)  # flush print output immediately
@@ -32,8 +34,11 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                       <DrawBlock x="-4" y="226" z="4" type="water"/>
                       <DrawBlock x="4" y="226" z="-4" type="water"/>
                       <DrawBlock x="-4" y="226" z="-4" type="water"/>
+                      <DrawBlock x="4" y="227" z="4" type="waterlily"/>
+                      <DrawBlock x="-4" y="227" z="4" type="waterlily"/>
+                      <DrawBlock x="4" y="227" z="-4" type="waterlily"/>
+                      <DrawBlock x="-4" y="227" z="-4" type="waterlily"/>
                   </DrawingDecorator>
-                  <ServerQuitFromTimeUp timeLimitMs="30000"/>
                   <ServerQuitWhenAnyAgentFinishes/>
                 </ServerHandlers>
               </ServerSection>
@@ -41,21 +46,47 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
               <AgentSection mode="Survival">
                 <Name>Wilson</Name>
                 <AgentStart>
-                    <Placement x="0.5" y="227" z="0.2" pitch="90"/>
+                    <Placement x="0.5" y="227" z="0.5" pitch="90" yaw="180"/>
                     <Inventory>
                         <InventoryItem slot="0" type="diamond_hoe"/>
-                        <InventoryItem slot="1" type="carrot" quantity="64"/>
-                        <InventoryItem slot="2" type="potato" quantity="64"/>
-                        <InventoryItem slot="3" type="beetroot_seeds" quantity="64"/>
-                        <InventoryItem slot="4" type="wheat_seeds" quantity="64"/>
+                        <InventoryItem slot="1" type="wheat_seeds" quantity="64"/>
+                        <InventoryItem slot="2" type="carrot" quantity="64"/>
+                        <InventoryItem slot="3" type="potato" quantity="64"/>
+                        <InventoryItem slot="4" type="beetroot_seeds" quantity="64"/>
                     </Inventory>
                 </AgentStart>
                 <AgentHandlers>
+                  <ContinuousMovementCommands/>
+                  <DiscreteMovementCommands/>
+                  <InventoryCommands/>
                   <ObservationFromFullStats/>
-                  <ContinuousMovementCommands turnSpeedDegs="180"/>
+                  <ObservationFromGrid>
+                      <Grid name="crop5x5">
+                        <min x="-2" y="0" z="-2"/>
+                        <max x="2" y="1" z="2"/>
+                      </Grid>
+                  </ObservationFromGrid>
+                  <ObservationFromFullInventory/>
+                  <ChatCommands/>
                 </AgentHandlers>
               </AgentSection>
             </Mission>'''
+
+def chooseDirection(direction, grid):
+    if direction == "east" and grid[13] == "birch_fence":
+        if grid[17] == "birch_fence":
+            return "nextstage"
+        return "south"
+    elif direction == "west" and grid[11] == "birch_fence":
+        if grid[17] == "birch_fence":
+            return "nextstage"
+        return "south"
+    elif direction == "south":
+        if grid[11] == "birch_fence":
+            return "east"
+        else:
+            return "west"
+    return direction
 
 # Create default Malmo objects:
 
@@ -99,13 +130,97 @@ while not world_state.has_mission_begun:
 print()
 print("Mission running ", end=' ')
 
+agent_host.sendCommand("chat /time set day")
+stage = 0
+direction = "none"
+planting = False
+
 # Loop until mission ends:
-while world_state.is_mission_running:
+while stage < 4: #while world_state.is_mission_running:
     print(".", end="")
-    time.sleep(0.1)
+    time.sleep(0.05)
     world_state = agent_host.getWorldState()
+    while len(world_state.observations) == 0:
+        time.sleep(.1)
+        world_state = agent_host.getWorldState()
     for error in world_state.errors:
         print("Error:",error.text)
+        
+    msg = world_state.observations[-1].text
+    observations = json.loads(msg)
+    grid = observations.get(u'crop5x5', 0)
+
+    #because farmland is not a full block, the grid observations sometimes include the ground, so we remove it
+    if grid[0] == "stone" or grid[0] == "grass" or grid[0] == "farmland" or grid[0] == "water":
+        del grid[0:25]
+       
+    if stage == 0: #move to corner and start planting
+        if grid[7] == "air":
+            agent_host.sendCommand("movenorth 1")
+        elif grid[11] == "air":
+            agent_host.sendCommand("movewest 1")
+        else:
+            stage = 1
+
+    if stage == 1: #planting
+        if grid[12] == "waterlily":
+            planting = False
+        
+        if not planting: #move and use hoe
+            planting = True
+            direction = chooseDirection(direction, grid)
+            if direction == "nextstage":
+                stage = 2
+                    
+            agent_host.sendCommand("move"+direction+" 1")
+            
+            if direction == "none":
+                direction = "east"
+
+            agent_host.sendCommand("hotbar.1 1")
+            agent_host.sendCommand("hotbar.1 0")
+            agent_host.sendCommand("use 1") 
+
+        else: #plant seeds
+            planting = False
+            cropchoice = random.randint(2,5) #ML here to choose the right crop based on grid
+            
+            agent_host.sendCommand("hotbar." + str(cropchoice) + " 1")
+            agent_host.sendCommand("hotbar." + str(cropchoice) + " 0")
+            agent_host.sendCommand("use 1")
+
+    if stage == 2: #harvesting
+        stage = 3
+        agent_host.sendCommand("chat /gamerule randomTickSpeed 10000")
+        time.sleep(1)
+        agent_host.sendCommand("chat /gamerule randomTickSpeed 1")
+        time.sleep(.1)
+        agent_host.sendCommand("chat /fill -8 227 -8 8 227 8 air 0 destroy") #this needs to vary if the size of the field changes
+        time.sleep(.1)
+        agent_host.sendCommand("chat /tp @e[type=item] @p")
+        time.sleep(1)
+
+    elif stage == 3: #counting reward
+        stage = 4
+        wheat, carrot, potato, beetroot = 0, 0, 0, 0
+        for i in range(0,41):
+            item = observations.get(u'InventorySlot_'+str(i)+'_item', 0)
+            if item == "wheat":
+                wheat += observations.get(u'InventorySlot_'+str(i)+'_size', 0)
+            elif item == "carrot":
+                carrot += observations.get(u'InventorySlot_'+str(i)+'_size', 0)
+            elif item == "potato":
+                potato += observations.get(u'InventorySlot_'+str(i)+'_size', 0)
+            elif item == "beetroot":
+                beetroot += observations.get(u'InventorySlot_'+str(i)+'_size', 0)
+        #if initial resources change, the 64's below need to change as well
+        print("\nHarvested " + str(wheat) + " wheat, " + str(carrot-64) + " carrots, " + str(potato-64) + " potatoes, " + str(beetroot) + " beetroots.")
+
+        #subtract the initial carrots and potatoes, and account for harvesting multiples at random from grown crops
+        reward = wheat + (carrot - 64) / 1.71 + (potato - 64) / 1.71 + beetroot
+        print("Reward is "+str(reward) + " out of 256") #can technically be higher with good RNG
+        
+        
 
 print()
 print("Mission ended")
