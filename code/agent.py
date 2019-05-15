@@ -17,6 +17,7 @@ farm_size = 0
 while farm_size % 2 == 0 or 3 > farm_size or 17 < farm_size:
     print("Input farm size (odd number, 17 max): ")
     farm_size = int(input())
+farm_radius = int((farm_size-1)/2)
 
 missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
             <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -30,20 +31,19 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                   <FlatWorldGenerator generatorString="3;7,226*1;21;"/>
                   <DrawingDecorator>
                       <DrawCuboid x1="-9" y1="226" z1="-9" x2="9" y2="226" z2="9" type="grass"/>
-                      <DrawCuboid x1="-9" y1="227" z1="-9" x2="9" y2="227" z2="9" type="air"/>
-                      <DrawLine x1="-9" y1="227" z1="-9" x2="9" y2="227" z2="-9" type="birch_fence"/>
-                      <DrawLine x1="-9" y1="227" z1="-9" x2="-9" y2="227" z2="9" type="birch_fence"/>
-                      <DrawLine x1="9" y1="227" z1="9" x2="9" y2="227" z2="-9" type="birch_fence"/>
-                      <DrawLine x1="9" y1="227" z1="9" x2="-9" y2="227" z2="9" type="birch_fence"/>
-                      <DrawBlock x="4" y="226" z="4" type="water"/>
+                      <DrawCuboid x1="-9" y1="227" z1="-9" x2="9" y2="227" z2="9" type="air"/><DrawBlock x="4" y="226" z="4" type="water"/>
                       <DrawBlock x="-4" y="226" z="4" type="water"/>
                       <DrawBlock x="4" y="226" z="-4" type="water"/>
                       <DrawBlock x="-4" y="226" z="-4" type="water"/>
                       <DrawBlock x="4" y="227" z="4" type="waterlily"/>
                       <DrawBlock x="-4" y="227" z="4" type="waterlily"/>
                       <DrawBlock x="4" y="227" z="-4" type="waterlily"/>
-                      <DrawBlock x="-4" y="227" z="-4" type="waterlily"/>
-                  </DrawingDecorator>
+                      <DrawBlock x="-4" y="227" z="-4" type="waterlily"/>'''
+missionXML +=        '<DrawLine x1="-' + str(farm_radius+1) + '" y1="227" z1="-' + str(farm_radius+1) + '" x2="' + str(farm_radius+1) + '" y2="227" z2="-' + str(farm_radius+1) + '" type="birch_fence"/>'
+missionXML +=        '<DrawLine x1="-' + str(farm_radius+1) + '" y1="227" z1="-' + str(farm_radius+1) + '" x2="-' + str(farm_radius+1) + '" y2="227" z2="' + str(farm_radius+1) + '" type="birch_fence"/>'
+missionXML +=        '<DrawLine x1="' + str(farm_radius+1) + '" y1="227" z1="' + str(farm_radius+1) + '" x2="' + str(farm_radius+1) + '" y2="227" z2="-' + str(farm_radius+1) + '" type="birch_fence"/>'
+missionXML +=        '<DrawLine x1="' + str(farm_radius+1) + '" y1="227" z1="' + str(farm_radius+1) + '" x2="-' + str(farm_radius+1) + '" y2="227" z2="' + str(farm_radius+1) + '" type="birch_fence"/>'
+missionXML +=    '''</DrawingDecorator>
                   <ServerQuitWhenAnyAgentFinishes/>
                 </ServerHandlers>
               </ServerSection>
@@ -70,10 +70,10 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                         <min x="-2" y="0" z="-2"/>
                         <max x="2" y="1" z="2"/>
                       </Grid>
-                      <Grid name="cropfull">
-                        <min x="-8" y="1" z="-8"/>
-                        <max x="8" y="1" z="8"/>
-                      </Grid>
+                      <Grid name="cropfull">'''
+missionXML +=          '<min x="-' + str(farm_radius) + '" y="1" z="-' + str(farm_radius) + '"/>'
+missionXML +=          '<max x="' + str(farm_radius) + '" y="1" z="' + str(farm_radius) + '"/>'
+missionXML +=         '''</Grid>
                   </ObservationFromGrid>
                   <ObservationFromFullInventory/>
                   <ChatCommands/>
@@ -149,7 +149,7 @@ while stage < 5: #while world_state.is_mission_running:
     print(".", end="")
     time.sleep(0.1)
     world_state = agent_host.getWorldState()
-    while len(world_state.observations) == 0:
+    while len(world_state.observations) == 0: #wait for the first observations
         time.sleep(.1)
         world_state = agent_host.getWorldState()
     for error in world_state.errors:
@@ -200,19 +200,19 @@ while stage < 5: #while world_state.is_mission_running:
 
     if stage == 2: #harvesting
         stage = 3
+        agent_host.sendCommand("chat /tp 0 ~ 0")
+        time.sleep(.5)
         agent_host.sendCommand("chat /gamerule randomTickSpeed 10000")
         time.sleep(1)
         agent_host.sendCommand("chat /gamerule randomTickSpeed 1")
         time.sleep(.1)
-        agent_host.sendCommand("chat /tp 0 ~ 0")
-        time.sleep(.5)
 
     elif stage == 3:
         stage = 4
         full_grid = observations.get(u'cropfull', 0)
         print("Full grid: " + str(full_grid))
-        agent_host.sendCommand("chat /fill -8 227 -8 8 227 8 air 0 destroy") #this needs to vary if the size of the field changes
-        time.sleep(10)
+        agent_host.sendCommand('chat /fill -' + str(farm_radius) + ' 227 -' + str(farm_radius) + ' ' + str(farm_radius) + ' 227 ' + str(farm_radius) + ' air 0 destroy') #this needs to vary if the size of the field changes
+        time.sleep(2)
         agent_host.sendCommand("chat /tp @e[type=item] @p")
         time.sleep(2)
 
@@ -234,7 +234,7 @@ while stage < 5: #while world_state.is_mission_running:
 
         #subtract the initial carrots and potatoes, and account for harvesting multiples at random from grown crops
         reward = wheat + (carrot - 64) / 1.71 + (potato - 64) / 1.71 + beetroot
-        print("Reward is "+str(reward) + " out of 256") #can technically be higher with good RNG
+        print("Reward is "+str(reward) + " out of " + str(farm_size**2)) #can technically be higher with good RNG
         
         
 
