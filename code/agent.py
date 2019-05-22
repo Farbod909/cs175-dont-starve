@@ -6,6 +6,8 @@ import sys
 import time
 import json
 import random
+import conv_net as cnn
+from replay import ReplayMemory
 
 if sys.version_info[0] == 2:
     sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)  # flush print output immediately
@@ -240,14 +242,20 @@ stage = 0
 direction = "none"
 planting = False
 state = []
+net = cnn.Net()
+memory = ReplayMemory(1000)
 
 # Loop until mission ends:
 while stage < 5:
     crop = random.randint(2,5)
     #keep in mind that the planting doesn't happen (and thus there is nothing to learn from) until stage 1
+    last_state = state.copy()
     stage, direction, planting, state, reward = runAgent(stage, direction, planting, state, crop)
+    memory.push(last_state, crop, state.copy(), reward)
         
-print(state)        
+print(state)   
+memory.print_replay()
+net.forward(state)
 
 print()
 print("Mission ended")
