@@ -21,31 +21,19 @@ class Net(nn.Module):
 
     def __init__(self):
         super(Net, self).__init__()
-        self.replay = []
-        self.conv1 = nn.Conv2d(9,6, kernel_size = 2)
-        self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
+        self.conv1 = nn.Conv2d(in_channels=1, out_channels=6, kernel_size=2)
+        #self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
         self.fc1 = nn.Linear(50, 120)
         self.fc2 = nn.Linear(120,5)
 
     def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))
+        x = torch.tensor(x).view(3,3)
         x = self.fc1(x)
         x = self.fc1(x)
         return F.log_softmax(x)
 
     def conv2d_size_out(size, kernel_size = 2, stride = 1):
         return (size - (kernel_size - 1) - 1) // stride  + 1
-
-    def add_experience(self,exp):
-        if len(self.replay) < 200:
-            self.replay.append(exp)
-        else:
-            self.replay.pop(0)
-            self.replay.append(exp)
-
-    def print_replay(self):
-        for tup in self.replay:
-            print(tup)
 
     def train(self):
         print("replay len: ", len(self.replay))
@@ -58,10 +46,6 @@ class Net(nn.Module):
             s_prime = torch.Tensor(np.array(exp[3]).astype(int))
 
             self.forward(s)
-
-
-
-        
 
 
 def grab_farm(farm):
