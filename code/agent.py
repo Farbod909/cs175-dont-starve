@@ -1,15 +1,13 @@
 from __future__ import print_function
 from builtins import range
-import MalmoPython
-import os
-import sys
 import time
 import json
 import random
 
 
 class Agent(object):
-    def __init__(self):
+    def __init__(self, agent_host, farm_size):
+        self.agent_host = agent_host
         self.started = False
         self.finished = False
         self.direction = "east"
@@ -21,10 +19,10 @@ class Agent(object):
     def nextTick(self):
         print(".", end="")
         for x in range(2): #I'm pretty sure the grid views only get updated every other tick
-            world_state = agent_host.getWorldState()
+            world_state = self.agent_host.getWorldState()
             while world_state.number_of_observations_since_last_state == 0:
                 time.sleep(.01)
-                world_state = agent_host.getWorldState()
+                world_state = self.agent_host.getWorldState()
             for error in world_state.errors:
                 print("Error:",error.text)
             
@@ -63,30 +61,30 @@ class Agent(object):
 
     def setup(self):
         if self.grid[7] != "birch_fence":
-            agent_host.sendCommand("movenorth 1")
+            self.agent_host.sendCommand("movenorth 1")
         elif self.grid[11] != "birch_fence":
-            agent_host.sendCommand("movewest 1")
+            self.agent_host.sendCommand("movewest 1")
         else:
             self.started = True
 
     def cleanup(self):
         self.nextTick()
         #select empty hotbar slot because sending chat commands sometimes causes the agent to right click
-        agent_host.sendCommand("hotbar.9 1")
-        agent_host.sendCommand("hotbar.9 0")
+        self.agent_host.sendCommand("hotbar.9 1")
+        self.agent_host.sendCommand("hotbar.9 0")
         #grow crops
-        agent_host.sendCommand("chat /tp 0 ~ 0")
+        self.agent_host.sendCommand("chat /tp 0 ~ 0")
         time.sleep(.5)
-        agent_host.sendCommand("chat /gamerule randomTickSpeed 10000")
+        self.agent_host.sendCommand("chat /gamerule randomTickSpeed 10000")
         time.sleep(1)
-        agent_host.sendCommand("chat /gamerule randomTickSpeed 1")
+        self.agent_host.sendCommand("chat /gamerule randomTickSpeed 1")
         #harvest crops
         self.nextTick()
         full_grid = self.observations.get(u'cropfull', 0)
         print("Full grid: " + str(full_grid))
-        agent_host.sendCommand('chat /fill -' + str(farm_radius) + ' 227 -' + str(farm_radius) + ' ' + str(farm_radius) + ' 227 ' + str(farm_radius) + ' air 0 destroy') #this needs to vary if the size of the field changes
+        self.agent_host.sendCommand('chat /fill -' + str(farm_radius) + ' 227 -' + str(farm_radius) + ' ' + str(farm_radius) + ' 227 ' + str(farm_radius) + ' air 0 destroy') #this needs to vary if the size of the field changes
         time.sleep(2)
-        agent_host.sendCommand("chat /tp @e[type=item] @p")
+        self.agent_host.sendCommand("chat /tp @e[type=item] @p")
         time.sleep(2)
         #count crops
         self.nextTick()
@@ -116,12 +114,12 @@ class Agent(object):
 
         self.nextTick()
         if not self.state[0] == -1: #skip the first move to plant in the top left corner
-            agent_host.sendCommand("move"+self.direction+" 1")
+            self.agent_host.sendCommand("move"+self.direction+" 1")
         self.updateDirection()
         
-        agent_host.sendCommand("hotbar." + str(crop) + " 1")
-        agent_host.sendCommand("hotbar." + str(crop) + " 0")
-        agent_host.sendCommand("use 1")
+        self.agent_host.sendCommand("hotbar." + str(crop) + " 1")
+        self.agent_host.sendCommand("hotbar." + str(crop) + " 0")
+        self.agent_host.sendCommand("use 1")
         self.updateState(crop)
 
         if self.finished:

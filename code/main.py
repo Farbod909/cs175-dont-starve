@@ -2,6 +2,11 @@ import agent
 import conv_net as cnn
 from replay import ReplayMemory
 
+import sys
+import os
+import MalmoPython
+import time
+
 
 if sys.version_info[0] == 2:
     sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)  # flush print output immediately
@@ -78,8 +83,6 @@ missionXML +=         '''</Grid>
             </Mission>'''
 
 # Create default Malmo objects:
-
-
 agent_host = MalmoPython.AgentHost()
 try:
     agent_host.parse( sys.argv )
@@ -126,7 +129,7 @@ for episode in range(5):
 
     agent_host.sendCommand("chat /time set day")
 
-    agent = agent.Agent()
+    agent = agent.Agent(agent_host, farm_size)
 
     # Loop until mission ends:
     while not agent.finished:
