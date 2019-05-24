@@ -82,7 +82,7 @@ class Agent(object):
         self.nextTick()
         full_grid = self.observations.get(u'cropfull', 0)
         print("Full grid: " + str(full_grid))
-        self.agent_host.sendCommand('chat /fill -' + str(farm_radius) + ' 227 -' + str(farm_radius) + ' ' + str(farm_radius) + ' 227 ' + str(farm_radius) + ' air 0 destroy') #this needs to vary if the size of the field changes
+        self.agent_host.sendCommand('chat /fill -' + str((self.farm_size-1)/2) + ' 227 -' + str((self.farm_size-1)/2) + ' ' + str((self.farm_size-1)/2) + ' 227 ' + str((self.farm_size-1)/2) + ' air 0 destroy') #this needs to vary if the size of the field changes
         time.sleep(2)
         self.agent_host.sendCommand("chat /tp @e[type=item] @p")
         time.sleep(2)

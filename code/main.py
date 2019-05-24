@@ -1,4 +1,4 @@
-import agent
+import agent as ag
 import conv_net as cnn
 from replay import ReplayMemory
 
@@ -129,7 +129,7 @@ for episode in range(5):
 
     agent_host.sendCommand("chat /time set day")
 
-    agent = agent.Agent(agent_host)
+    agent = ag.Agent(agent_host)
 
     # Loop until mission ends:
     while not agent.finished:
