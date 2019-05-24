@@ -10,6 +10,7 @@ seed = 42
 np.random.seed(seed)
 #torch.manual_seed(seed)
 
+BATCH_SIZE = 50
 classes = ("dirt", "wheat", "carrot", "potato", "beetroot")
 
 #from torch.autograd import Variable
@@ -22,12 +23,15 @@ class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=6, kernel_size=2)
+        self.bn1 = nn.BatchNorm2d(6)
         #self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
         self.fc1 = nn.Linear(50, 120)
         self.fc2 = nn.Linear(120,5)
 
     def forward(self, x):
         x = torch.tensor(x).view(3,3)
+        x = self.conv1(x)
+        x = self.bn1(x)
         x = self.fc1(x)
         x = self.fc1(x)
         return F.log_softmax(x)
@@ -48,6 +52,13 @@ class Net(nn.Module):
             self.forward(s)
 
 
+    def train(self, memory):
+        if memory.size() < BATCH_SIZE:
+            return
+        transitions = memory.sample(BATCH_SIZE)
+        
+
+    
 def grab_farm(farm):
     farm = ["dirt"] * (farm**2)
     print("cnn farm: ", farm)
@@ -57,12 +68,5 @@ def translate_farm(farm):
     cell_to_id = {"dirt":1, "wheat":2, "carrots":3, "potatoes":4, "beetroots":5}
     id_to_cell = {val:key for key,val in cell_to_id.items()}
     return [id_to_cell[ident] for ident in farm]
-
-def train(s, Qout, reward, s1):
-    #s <- cu
-    pass
-
-    
-        
 
 

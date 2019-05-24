@@ -205,6 +205,16 @@ class Agent(object):
 
         return 0
 
+    def select_action(net, state):
+        import random
+        eps_threshold = 0
+        sample = random.random()
+
+        if sample < eps_threshold: #for now, this guarantees random action everytime
+            with torch.no_grad():
+                return net(state).max()
+        else:
+            return random.randint(1,4)
 
 
 # Create default Malmo objects:
@@ -259,10 +269,11 @@ for episode in range(5):
 
     # Loop until mission ends:
     while not agent.finished:
-        crop = random.randint(1,4)
-        last_state = agent.state.copy()
-        reward = agent.run(crop)
-        memory.push(last_state, crop, agent.state.copy(), reward)
+        state = agent.state.copy()
+        action = agent.select_action(state)
+        reward = agent.run(action)
+        memory.push(state, action, agent.state.copy(), reward)
+        net.train(memory)
             
     print(agent.state)   
     memory.print_replay()
