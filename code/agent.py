@@ -6,15 +6,15 @@ import random
 
 
 class Agent(object):
-    def __init__(self, agent_host, farm_size):
+    def __init__(self, agent_host):
         self.agent_host = agent_host
+        self.nextTick()
+        self.farm_size = int(len(self.observations.get(u'cropfull', 0)) ** 0.5)
         self.started = False
         self.finished = False
         self.direction = "east"
-        self.grid = [''] * 25
-        self.state = [0] * farm_size**2
+        self.state = [0] * self.farm_size**2
         self.state[0] = -1
-        self.timeAlive = 0
 
     def nextTick(self):
         print(".", end="")
@@ -56,8 +56,8 @@ class Agent(object):
             self.state[pos+1] = -1
         elif self.direction == "west":
             self.state[pos-1] = -1
-        elif self.direction == "south" and len(self.state) > pos + farm_size:
-            self.state[pos+farm_size] = -1
+        elif self.direction == "south" and len(self.state) > pos + self.farm_size:
+            self.state[pos+self.farm_size] = -1
 
     def setup(self):
         if self.grid[7] != "birch_fence":
@@ -104,7 +104,7 @@ class Agent(object):
 
         #subtract the initial carrots and potatoes, and account for harvesting multiples at random from grown crops
         reward = wheat + (carrot - 64) / 1.71 + (potato - 64) / 1.71 + beetroot
-        print("Reward is "+str(reward) + " out of " + str(farm_size**2)) #can technically be higher with good RNG
+        print("Reward is "+str(reward) + " out of " + str(self.farm_size**2)) #can technically be higher with good RNG
         return reward
 
     def run(self, crop):

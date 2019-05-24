@@ -129,7 +129,7 @@ for episode in range(5):
 
     agent_host.sendCommand("chat /time set day")
 
-    agent = agent.Agent(agent_host, farm_size)
+    agent = agent.Agent(agent_host)
 
     # Loop until mission ends:
     while not agent.finished:
