@@ -53,7 +53,7 @@ class Net(nn.Module):
 
 
     def train(self, memory):
-        if memory.size() < BATCH_SIZE:
+        if len(memory) < BATCH_SIZE:
             return
         transitions = memory.sample(BATCH_SIZE)
         
