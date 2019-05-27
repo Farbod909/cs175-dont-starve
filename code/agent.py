@@ -13,39 +13,40 @@ class Agent(object):
         self.farm_size = int(len(self.observations.get(u'cropfull', 0)) ** 0.5)
         self.started = False
         self.finished = False
-        self.direction = "east"
+        self.direction = "north"
+        self.xpos = 0
+        self.zpos = 0
         self.state = [0] * self.farm_size**2
         self.state[0] = -1
 
     def nextTick(self):
         print(".", end="")
-        for x in range(2): #I'm pretty sure the grid views only get updated every other tick
+        world_state = self.agent_host.getWorldState()
+        while world_state.number_of_observations_since_last_state == 0:
+            time.sleep(.01)
             world_state = self.agent_host.getWorldState()
-            while world_state.number_of_observations_since_last_state == 0:
-                time.sleep(.01)
-                world_state = self.agent_host.getWorldState()
-            for error in world_state.errors:
-                print("Error:",error.text)
+        for error in world_state.errors:
+            print("Error:",error.text)
             
         msg = world_state.observations[-1].text
         self.observations = json.loads(msg)
-        self.grid = self.observations.get(u'croplocal', 0)
+        #self.grid = self.observations.get(u'croplocal', 0)
 
         #because farmland is not a full block, the grid observations sometimes include the ground, so we remove it
-        if self.grid[0] == "stone" or self.grid[0] == "dirt" or self.grid[0] == "farmland" or self.grid[0] == "water":
-            del self.grid[0:25]
+        #if self.grid[0] == "stone" or self.grid[0] == "dirt" or self.grid[0] == "farmland" or self.grid[0] == "water":
+        #    del self.grid[0:25]
 
     def updateDirection(self):
-        if self.direction == "east" and self.grid[14] == "birch_fence":
-            if self.grid[17] == "birch_fence":
+        if self.direction == "east" and self.xpos == int((self.farm_size-1)/2):
+            if self.zpos == int((self.farm_size-1)/2):
                 self.finished = True
             self.direction = "south"
-        elif self.direction == "west" and self.grid[10] == "birch_fence":
-            if self.grid[17] == "birch_fence":
+        elif self.direction == "west" and self.xpos == int((self.farm_size-1)/-2):
+            if self.zpos == int((self.farm_size-1)/2):
                 self.finished = True
             self.direction = "south"
         elif self.direction == "south":
-            if self.grid[11] == "birch_fence":
+            if self.xpos == int((self.farm_size-1)/-2):
                 self.direction = "east"
             else:
                 self.direction = "west"
@@ -60,13 +61,28 @@ class Agent(object):
         elif self.direction == "south" and len(self.state) > pos + self.farm_size:
             self.state[pos+self.farm_size] = -1
 
-    def setup(self):
-        if self.grid[7] != "birch_fence":
-            self.agent_host.sendCommand("movenorth 1")
-        elif self.grid[11] != "birch_fence":
-            self.agent_host.sendCommand("movewest 1")
-        else:
-            self.started = True
+    def move(self):
+        self.agent_host.sendCommand("move"+self.direction+" 1")
+        if self.direction == "north":
+            self.zpos -= 1
+        elif self.direction == "south":
+            self.zpos += 1
+        elif self.direction == "west":
+            self.xpos -= 1
+        elif self.direction == "east":
+            self.xpos += 1
+        print(str(self.xpos) + " " + str(self.zpos))
+
+    def setup(self): #move to northwest corner
+        while self.zpos > (self.farm_size-1)/-2:
+            self.nextTick()
+            self.move()
+        self.direction = "west"
+        while self.xpos > (self.farm_size-1)/-2:
+            self.nextTick()
+            self.move()
+        self.direction = "east"
+        self.started = True
 
     def cleanup(self):
         self.nextTick()
@@ -109,13 +125,12 @@ class Agent(object):
         return reward
 
     def run(self, crop):
-        while not self.started:
-            self.nextTick()
+        if not self.started:
             self.setup()
 
         self.nextTick()
         if not self.state[0] == -1: #skip the first move to plant in the top left corner
-            self.agent_host.sendCommand("move"+self.direction+" 1")
+            self.move()
         self.updateDirection()
         
         self.agent_host.sendCommand("hotbar." + str(crop) + " 1")
