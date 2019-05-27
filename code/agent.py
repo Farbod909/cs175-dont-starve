@@ -138,4 +138,8 @@ class Agent(object):
         else:
             return random.randint(1,4)
 
+    def select_random_action(self):
+        return random.randint(1,4)
+
+
 
