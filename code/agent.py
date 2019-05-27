@@ -3,6 +3,7 @@ from builtins import range
 import time
 import json
 import random
+import torch
 
 
 class Agent(object):
@@ -127,14 +128,17 @@ class Agent(object):
 
         return 0
 
-    def select_action(net, state):
+    def select_action(self, state, net = None):
         import random
         eps_threshold = 0
         sample = random.random()
 
-        if sample < eps_threshold: #for now, this guarantees random action everytime
+        if net != None and sample > eps_threshold: #for now, this guarantees random action everytime
             with torch.no_grad():
-                return net(state).max()
+                prediction = net(state.unsqueeze_(0))
+                print("prediction: ", type(prediction))
+                return prediction.argmax(dim=1)
+                
         else:
             return random.randint(1,4)
 

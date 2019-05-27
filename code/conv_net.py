@@ -20,53 +20,31 @@ classes = ("dirt", "wheat", "carrot", "potato", "beetroot")
 
 class Net(nn.Module):
 
-    def __init__(self):
+    def __init__(self, side_len, n_outputs):
         super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(in_channels=1, out_channels=6, kernel_size=2)
-        self.bn1 = nn.BatchNorm2d(6)
-        #self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
-        self.fc1 = nn.Linear(50, 120)
-        self.fc2 = nn.Linear(120,5)
+        self.conv1 = nn.Conv2d(in_channels=1, out_channels=6, kernel_size=2, stride = 1)
+
+        def conv2d_size_out(size, kernel_size = 2, stride = 1):
+            return (size - (kernel_size - 1) - 1) // stride  + 1
+
+        self.fc1 = nn.Linear(in_features=24, out_features=5)
 
     def forward(self, x):
-        x = torch.tensor(x).view(3,3)
+        print("1. x.shape: ", x.shape)
         x = self.conv1(x)
-        x = self.bn1(x)
+        print("2. x.shape: ", x.shape)
+        x = x.view(-1,6*2*2)
+        print("3. x.shape: ", x.shape)
         x = self.fc1(x)
-        x = self.fc1(x)
-        return F.log_softmax(x)
-
-    def conv2d_size_out(size, kernel_size = 2, stride = 1):
-        return (size - (kernel_size - 1) - 1) // stride  + 1
-
-    def train(self):
-        print("replay len: ", len(self.replay))
-        batch = random.sample(self.replay, 5)
-        for exp in batch:
-            s = torch.Tensor(np.array(exp[0]).astype(int))
-            print("s: ", s)
-            action = exp[1]
-            reward = exp[2]
-            s_prime = torch.Tensor(np.array(exp[3]).astype(int))
-
-            self.forward(s)
-
+        print("4. x.shape: ", x.shape)
+        return F.log_softmax(x, dim = 1)
 
     def train(self, memory):
         if len(memory) < BATCH_SIZE:
             return
         transitions = memory.sample(BATCH_SIZE)
-        
-
-    
-def grab_farm(farm):
-    farm = ["dirt"] * (farm**2)
-    print("cnn farm: ", farm)
-    print(translate_farm(farm))
 
 def translate_farm(farm):
     cell_to_id = {"dirt":1, "wheat":2, "carrots":3, "potatoes":4, "beetroots":5}
     id_to_cell = {val:key for key,val in cell_to_id.items()}
     return [id_to_cell[ident] for ident in farm]
-
-
