@@ -136,10 +136,7 @@ class Agent(object):
         if net != None and sample > eps_threshold: #for now, this guarantees random action everytime
             with torch.no_grad():
                 prediction = net(state.unsqueeze_(0))
-                print("prediction: ", type(prediction))
-                return prediction.argmax(dim=1)
+                return torch.exp(prediction).argmax(dim=1) + 1
                 
         else:
             return random.randint(1,4)
-
-
