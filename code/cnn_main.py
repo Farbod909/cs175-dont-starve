@@ -146,16 +146,12 @@ for episode in range(5):
 
     # Loop until mission ends:
     while not agent.finished:
-        print("\nwhile loop again\n")
-        print("agent_state: ", agent.state)
         state = transform_farm(copy.deepcopy(agent.state))
-        print("transformed state shape: ", state.shape)
         action = agent.select_action(state, net)
-        reward = agent.run(action)
-        #memory.push(state, action, transform_farm(agent.state.copy()), reward)
-        #net.train(memory)
+        reward = agent.run(action.item())
+        memory.push(state, action, transform_farm(copy.deepcopy(agent.state)), torch.tensor([reward]).long())
+        cnn.train(net, memory)
                     
-    memory.print_replay()
 
     print()
     print("Mission ended")

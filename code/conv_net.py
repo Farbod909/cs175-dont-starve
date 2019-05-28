@@ -5,12 +5,14 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 from torch.autograd import Variable
+from replay import Transition
 
 seed = 42
 np.random.seed(seed)
 #torch.manual_seed(seed)
 
-BATCH_SIZE = 50
+BATCH_SIZE = 5
+DISCOUNT = .2
 classes = ("dirt", "wheat", "carrot", "potato", "beetroot")
 
 #from torch.autograd import Variable
@@ -27,22 +29,33 @@ class Net(nn.Module):
         def conv2d_size_out(size, kernel_size = 2, stride = 1):
             return (size - (kernel_size - 1) - 1) // stride  + 1
 
-        self.fc1 = nn.Linear(in_features=24, out_features=5)
+        self.fc1 = nn.Linear(in_features=24, out_features=4)
 
     def forward(self, x):
-        print("1. x.shape: ", x.shape)
         x = self.conv1(x)
-        print("2. x.shape: ", x.shape)
         x = x.view(-1,6*2*2)
-        print("3. x.shape: ", x.shape)
         x = self.fc1(x)
-        print("4. x.shape: ", x.shape)
-        return F.log_softmax(x, dim = 1)
+        return nn.LogSoftmax()(x)
 
-    def train(self, memory):
-        if len(memory) < BATCH_SIZE:
-            return
-        transitions = memory.sample(BATCH_SIZE)
+def train(net, memory):
+    if len(memory) < BATCH_SIZE: 
+        return
+    transitions = memory.sample(BATCH_SIZE)
+    batch = Transition(*zip(*transitions)) #this allows us to grab columns of states/actions/state_primes/rewards
+
+
+    state_batch = torch.cat(batch.state)    #cat stacks tensors on top of each other (note diff from torch.stack)
+    action_batch = torch.cat(batch.action)
+    reward_batch = torch.cat(batch.reward)
+    next_state_batch = torch.cat(batch.next_state).unsqueeze_(1)
+
+    print("new_state pred: ", net(next_state_batch))
+    print("new_state pred: ", net(next_state_batch).max(dim=1).values.data)
+
+    target = reward_batch + DISCOUNT * net(next_state_batch).max(dim=1).values.data.numpy()
+
+    state_action_values = net(state_batch)
+
 
 def translate_farm(farm):
     cell_to_id = {"dirt":1, "wheat":2, "carrots":3, "potatoes":4, "beetroots":5}
