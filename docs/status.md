@@ -54,6 +54,8 @@ Though this could be due to not having enough training data or a complex enough 
 
 ## Video
 
+https://www.youtube.com/watch?v=P9kLdlbPS_U&feature=youtu.be
+
 ## Remaining Goals and Challenges
 A model that may be complex enough to fit our state-space is a convolutional neural network.
 Considering a CNN can have multiple filters scanning over the farm, it may have the potential of recognizing patterns that lead to high reward such as rows of wheat.
