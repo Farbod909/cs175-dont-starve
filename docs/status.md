@@ -1,8 +1,3 @@
----
-layout: default
-title: Status
----
-
 ## Project Summary
 
 While our main goal is still to create an agent that can learn to farm, we have decided to change the agent's reason for farming. Initially, we had the idea that we could make an agent motivated by in-game hunger, but that turned out to not be an interesting challenge since hunger is very slow to deplete and growing enough food to survive is fairly easy.
