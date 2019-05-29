@@ -18,8 +18,8 @@ From there, crops are given time to grow and a reward of +1 is given per crop th
 The max reward possible per episode is the number of cells in the farm. 
 
 Neural Functions Approximator:
-At the moment we are using Deep Q-Learning with a feed-foward neural network.
-Our feed forward neural network takes a one-hot encoding of every farm cell. 
+At the moment we are using Deep Q-Learning with a feed-foward neural network and replay memory.
+Our feed forward neural network takes a one-hot encoding of every farm cell in batches of 10. 
 It contains 5 hidden layers that contain 15 weights each with ReLU as the activation function at the output of every layer with the exception of one that has a tanh function. 
 It then outputs the approximated Q-value for each action from the next state. 
 
@@ -28,8 +28,9 @@ It then outputs the approximated Q-value for each action from the next state.
 Our loss function is the Mean-Squared error between the approximated target value with the value of the current state-action pair.
 Our approximated target value is found via the highest expected return of next state-action pair.
 
-
 ![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/loss_ftn.PNG)
+
+Lastly, we utilize the epsilon-greedy algorithm with a decaying exploration rate of 0.5 - 0.2.
 
 ## Evaluation
 In our project home page we described the following: 
@@ -41,21 +42,24 @@ In our project home page we described the following:
 
 Quantitatively, a strong performing agent is one that is able to reach a reward close to or equal to the number of cells in the farm; meaning that a crop grew in almost every cell.
 
+We trained our model over 1000 episodes. 
+The performance of our model can be seen in the figure below where the x-axis is the episode and the y-axis is the reward obtained. 
+We received an average reward of 1.93; .78% short of our goal.
 
 ![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/Reward_per_episode.png)
 
-If it performs well according to the quantitative metric, we should see patterns according to the planting restrictions we described above.
-For example, if it plants wheat in rows, then we know it is learning successfully. 
-If it continues to act random, on the other hand, our model is not learning properly.
-
-
+Qualitiatively, our agent acts according to the results described above. 
+The crops planted are basically random and there are no signs of patterns. 
+Though this could be due to not having enough training data or a complex enough model, we believe a feed forward network in general is not complex enough to approximate our state-space.
 
 ## Video
 
 ## Remaining Goals and Challenges
-We are currently working on applying a convolutional neural network (CNN) to our task.
-Considering a CNN can have multiple filters to scan over the farm, it may have the potential of recognizing patterns that lead to high reward such as rows of wheat.
-It will be interesting to visualize the filters in order to confirm that they are picking up these patterns.
+A model that may be complex enough to fit our state-space is a convolutional neural network.
+Considering a CNN can have multiple filters scanning over the farm, it may have the potential of recognizing patterns that lead to high reward such as rows of wheat.
+It will also be interesting to visualize the filters in order to confirm that they are picking up these patterns.
+
+Our goal for the remaining 3-weeks is to implement the CNN and fit it not only to a 2-crop scenario, but also to a 4-crop scenario.
 
 
 
