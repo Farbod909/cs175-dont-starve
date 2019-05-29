@@ -33,6 +33,8 @@ Qualitatively, a well performing model is one that plants according to at least 
 
 ## Resources Used
 http://deeplizard.com/learn/video/0bt0SjbS3xc
+
 https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html#training
+
 https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0
 
