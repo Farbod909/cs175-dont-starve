@@ -25,6 +25,12 @@ It then outputs the approximated Q-value for each action from the next state.
 
 ![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/Feed_Forward_Graphic.png)
 
+Our loss function is the Mean-Squared error between the approximated target value with the value of the current state-action pair.
+Our approximated target value is found via the highest expected return of next state-action pair.
+
+$(R+\gamma max_{a`}Q(s`,a`) - Q(S,A))^2$
+
+
 ## Evaluation
 In our project home page we described the following: 
 
@@ -38,6 +44,8 @@ Quantitatively, a strong performing agent is one that is able to reach a reward 
 If it performs well according to the quantitative metric, we should see patterns according to the planting restrictions we described above.
 For example, if it plants wheat in rows, then we know it is learning successfully. 
 If it continues to act random, on the other hand, our model is not learning properly.
+
+
 
 ## Video
 
