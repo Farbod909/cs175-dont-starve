@@ -22,9 +22,11 @@ The episode ends once the agent plants a crop at the bottom-rightmost cell.
 From there, crops are given time to grow and a reward of +1 is given per crop that grew successfully. 
 The max reward possible per episode is the number of cells in the farm. 
 
-Neural Functions Approximators:
+Neural Functions Approximator:
 At the moment we are using Deep Q-Learning with a feed-foward neural network.
-Our feed forward neural network takes a one-hot encoding of every farm cell. It contains 5 hidden layers that contain 15 weights each with ReLU as the activation function at the output of every layer with the exception of one that has a tanh function. It then outputs the approximated Q-value for each action from the next state. 
+Our feed forward neural network takes a one-hot encoding of every farm cell. 
+It contains 5 hidden layers that contain 15 weights each with ReLU as the activation function at the output of every layer with the exception of one that has a tanh function. 
+It then outputs the approximated Q-value for each action from the next state. 
 
 ![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/Feed_Forward_Graphic.png)
 
@@ -39,12 +41,17 @@ In our project home page we described the following:
 Quantitatively, a strong performing agent is one that is able to reach a reward close to or equal to the number of cells in the farm; meaning that a crop grew in every cell.
 
 If it performs well according to the quantitative metric, we should see patterns according to the planting restrictions we described above.
-For example, if it plants wheat in rows, then we know it is learning successfully. If it continues to act random, on the other hand, our model is not learning properly.
+For example, if it plants wheat in rows, then we know it is learning successfully. 
+If it continues to act random, on the other hand, our model is not learning properly.
 
 ## Video
 
 ## Remaining Goals and Challenges
-- conv_net: takes in 3d-matrices, having kernels might help it crop according to the patterns we're looking for.
+We are currently working on applying a convolutional neural network (CNN) to our task.
+Considering a CNN can have multiple filters to scan over the farm, it may have the potential of recognizing patterns that lead to high reward such as rows of wheat.
+It will be interesting to visualize the filters in order to confirm that they are picking up these patterns.
+
+
 
 
 ## Resources Used
