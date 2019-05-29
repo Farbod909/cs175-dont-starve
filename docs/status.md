@@ -23,7 +23,7 @@ Our feed forward neural network takes a one-hot encoding of every farm cell.
 It contains 5 hidden layers that contain 15 weights each with ReLU as the activation function at the output of every layer with the exception of one that has a tanh function. 
 It then outputs the approximated Q-value for each action from the next state. 
 
-![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/Feed_Forward_Graphic.png)
+![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/Feed_Forward_Graphic.png)
 
 ## Evaluation
 In our project home page we described the following: 
@@ -51,7 +51,9 @@ It will be interesting to visualize the filters in order to confirm that they ar
 
 ## Resources Used
 http://deeplizard.com/learn/video/0bt0SjbS3xc
+
 https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html#training
+
 https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0
 
 
