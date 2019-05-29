@@ -23,26 +23,10 @@ From there, crops are given time to grow and a reward of +1 is given per crop th
 The max reward possible per episode is the number of cells in the farm. 
 
 Neural Functions Approximators:
-At the moment we are using Deep Q-Learning with two different types of neural networks. 
-We are doing a feed-forward neural network and a convolutional neural network to approximate our q-values. 
+At the moment we are using Deep Q-Learning with a feed-foward neural network.
+Our feed forward neural network takes a one-hot encoding of every farm cell. It contains 5 hidden layers that contain 15 weights each with ReLU as the activation function at the output of every layer with the exception of one that has a tanh function. It then outputs the approximated Q-value for each action from the next state. 
 
-Our feed-forward neural network has 5 hidden layers with mostly ReLU and one tanh activation function.
-as input it takes in
-
-- how many states
-
-[comment]: <> feed forward graphic
 ![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/Feed_Forward_Graphic.png)
-
-Our feed forward neural network takes a one-hot encoding of every farm cell. It contains 5 hidden layers that contain 15 weights with ReLU as the activation function at the output of every layer with the exception of one that has a tanh function. It then outputs the approximated Q-value for each action from the next state. 
-
-- description of each neural net
-  - feed forward: elaborate on 36 bit input
-    - specified how many layers. About how many weights per layer [6,5,7]
-    - 
-  - conv_net: takes in 3d-matrices, having kernels might help it crop according to the patterns we're looking for.
-
-
 
 ## Evaluation
 In our project home page we described the following: 
@@ -60,6 +44,8 @@ For example, if it plants wheat in rows, then we know it is learning successfull
 ## Video
 
 ## Remaining Goals and Challenges
+- conv_net: takes in 3d-matrices, having kernels might help it crop according to the patterns we're looking for.
+
 
 ## Resources Used
 http://deeplizard.com/learn/video/0bt0SjbS3xc
