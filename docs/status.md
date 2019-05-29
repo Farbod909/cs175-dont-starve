@@ -31,15 +31,15 @@ Our feed forward neural network takes a one-hot encoding of every farm cell. It 
 ## Evaluation
 In our project home page we described the following: 
 
-Wheat needs to be planted in 1-wide rows or columns, with at least 2 wheat per line.
-Potatoes need to be planted with two other potatoes nearby, in an L shape, or with three other potatoes.
-Carrots will only grow if they have zero or one nearby carrots.
-Beetroots require four or more adjacent beetroots, including diagonals.
+  - Wheat needs to be planted in 1-wide rows or columns, with at least 2 wheat per line.
+  - Potatoes need to be planted with two other potatoes nearby, in an L shape, or with three other potatoes.
+  - Carrots will only grow if they have zero or one nearby carrots.
+  - Beetroots require four or more adjacent beetroots, including diagonals.
 
 Quantitatively, a strong performing agent is one that is able to reach a reward close to or equal to the number of cells in the farm; meaning that a crop grew in every cell.
 
-If it performs well according to the quantitative metric, we should see patterns according to theh planting restrictions we described above.
-For example, if it plants wheat in rows, then we know it is learning successfully. If it continue to act random, on the other hand, our model is not learning properly.
+If it performs well according to the quantitative metric, we should see patterns according to the planting restrictions we described above.
+For example, if it plants wheat in rows, then we know it is learning successfully. If it continues to act random, on the other hand, our model is not learning properly.
 
 ## Video
 
