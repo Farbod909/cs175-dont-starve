@@ -28,7 +28,7 @@ It then outputs the approximated Q-value for each action from the next state.
 Our loss function is the Mean-Squared error between the approximated target value with the value of the current state-action pair.
 Our approximated target value is found via the highest expected return of next state-action pair.
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/blob/master/loss_ftn.PNG)
+![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/loss_ftn.PNG)
 
 Lastly, we utilize the epsilon-greedy algorithm with a decaying exploration rate of 0.5 - 0.2.
 
@@ -46,7 +46,7 @@ We trained our model over 1000 episodes.
 The performance of our model can be seen in the figure below where the x-axis is the episode and the y-axis is the reward obtained. 
 We received an average reward of 1.93; .78% short of our goal.
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/blob/master/Reward_per_episode.png)
+![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/Reward_per_episode.png)
 
 Qualitiatively, our agent acts according to the results described above. 
 The crops planted are basically random and there are no signs of patterns. 
