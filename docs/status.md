@@ -33,7 +33,7 @@ In our project home page we described the following:
   - Carrots will only grow if they have zero or one nearby carrots.
   - Beetroots require four or more adjacent beetroots, including diagonals.
 
-Quantitatively, a strong performing agent is one that is able to reach a reward close to or equal to the number of cells in the farm; meaning that a crop grew in every cell.
+Quantitatively, a strong performing agent is one that is able to reach a reward close to or equal to the number of cells in the farm; meaning that a crop grew in almost every cell.
 
 If it performs well according to the quantitative metric, we should see patterns according to the planting restrictions we described above.
 For example, if it plants wheat in rows, then we know it is learning successfully. 
