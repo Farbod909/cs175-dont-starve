@@ -71,4 +71,4 @@ https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html#trainin
 
 https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0
 
-
+https://adventuresinmachinelearning.com/reinforcement-learning-tutorial-python-keras/
