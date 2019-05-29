@@ -28,8 +28,8 @@ It then outputs the approximated Q-value for each action from the next state.
 Our loss function is the Mean-Squared error between the approximated target value with the value of the current state-action pair.
 Our approximated target value is found via the highest expected return of next state-action pair.
 
-$(R+\gamma max_{a`}Q(s`,a`) - Q(S,A))^2$
 
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/loss_ftn.PNG)
 
 ## Evaluation
 In our project home page we described the following: 
@@ -40,6 +40,9 @@ In our project home page we described the following:
   - Beetroots require four or more adjacent beetroots, including diagonals.
 
 Quantitatively, a strong performing agent is one that is able to reach a reward close to or equal to the number of cells in the farm; meaning that a crop grew in almost every cell.
+
+
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/Reward_per_episode.png)
 
 If it performs well according to the quantitative metric, we should see patterns according to the planting restrictions we described above.
 For example, if it plants wheat in rows, then we know it is learning successfully. 
