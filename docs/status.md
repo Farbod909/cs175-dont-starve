@@ -72,6 +72,3 @@ https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html#trainin
 https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0
 
 
-
-#------ find different placement for this -----
-The environment is deterministic (a square farm of a given size), so the agent does not need any percepts while planting, only to remember what crops it has planted and where. This also makes the agent very fast, since waiting for Malmo's percepts such as a grid view is slow and often unreliable. After the agent is done planting, it harvests the crops and counts them to find its reward for that iteration.
