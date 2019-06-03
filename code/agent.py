@@ -20,7 +20,7 @@ class Agent(object):
         self.state[0] = -1
 
     def nextTick(self):
-        print(".", end="")
+        # print(".", end="")
         world_state = self.agent_host.getWorldState()
         while world_state.number_of_observations_since_last_state == 0:
             time.sleep(.01)
@@ -71,7 +71,7 @@ class Agent(object):
             self.xpos -= 1
         elif self.direction == "east":
             self.xpos += 1
-        print(str(self.xpos) + " " + str(self.zpos))
+        # print(str(self.xpos) + " " + str(self.zpos))
 
     def setup(self): #move to northwest corner
         while self.zpos > (self.farm_size-1)/-2:
@@ -98,7 +98,7 @@ class Agent(object):
         #harvest crops
         self.nextTick()
         full_grid = self.observations.get(u'cropfull', 0)
-        print("Full grid: " + str(full_grid))
+        # print("Full grid: " + str(full_grid))
         self.agent_host.sendCommand('chat /fill -' + str((self.farm_size-1)/2) + ' 227 -' + str((self.farm_size-1)/2) + ' ' + str((self.farm_size-1)/2) + ' 227 ' + str((self.farm_size-1)/2) + ' air 0 destroy') #this needs to vary if the size of the field changes
         time.sleep(.5) #increase this if you get lag
         self.nextTick()
@@ -118,7 +118,7 @@ class Agent(object):
             elif item == "beetroot":
                 beetroot += self.observations.get(u'InventorySlot_'+str(i)+'_size', 0)
         #if initial resources change, the 64's below need to change as well
-        print("\nHarvested " + str(wheat) + " wheat, " + str(carrot-64) + " carrots, " + str(potato-64) + " potatoes, " + str(beetroot) + " beetroots.")
+        # print("\nHarvested " + str(wheat) + " wheat, " + str(carrot-64) + " carrots, " + str(potato-64) + " potatoes, " + str(beetroot) + " beetroots.")
 
         #subtract the initial carrots and potatoes, and account for harvesting multiples at random from grown crops
         reward = wheat + (carrot - 64) / 1.71 + (potato - 64) / 1.71 + beetroot
@@ -128,7 +128,7 @@ class Agent(object):
     def run(self, crop):
         if not self.started:
             self.setup()
-
+        
         self.nextTick()
         if not self.state[0] == -1: #skip the first move to plant in the top left corner
             self.move()

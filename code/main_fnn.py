@@ -1,5 +1,5 @@
 import agent as ag
-from replay import ReplayMemory
+from replay import ReplayMemory, Transition
 from helpers import state_as_one_hot
 
 import sys
@@ -10,6 +10,7 @@ import time
 
 from keras.models import Sequential
 from keras.layers import Dense, InputLayer
+import numpy as np
 
 
 if sys.version_info[0] == 2:
@@ -109,15 +110,24 @@ exploration_decay_rate = 0.001
 
 # define keras nn model here
 model = Sequential()
-model.add(InputLayer(batch_input_shape=(1, 54)))
-model.add(Dense(12, activation='sigmoid'))
-model.add(Dense(4, activation='linear'))
+model.add(InputLayer(batch_input_shape=(1, 36)))
+model.add(Dense(15, activation='relu'))
+model.add(Dense(15, activation='relu'))
+model.add(Dense(15, activation='tanh'))
+model.add(Dense(15, activation='relu'))
+model.add(Dense(15, activation='relu'))
+model.add(Dense(2, activation='linear'))
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 
 
-reward_list = []
+memory = ReplayMemory(100)
 
+reward_list = []
 for episode in range(num_episodes):
+    print()
+    print("EPISODE", episode+1)
+    print("exploration_rate:", exploration_rate)
+    print("--------------")
     my_mission = MalmoPython.MissionSpec(missionXML, True)
     my_mission_record = MalmoPython.MissionRecordSpec()
 
@@ -145,7 +155,7 @@ for episode in range(num_episodes):
             print("Error:",error.text)
 
     print()
-    print("Mission running ", end=' ')
+    print("Mission running...")
 
     agent_host.sendCommand("chat /time set day")
 
@@ -157,20 +167,25 @@ for episode in range(num_episodes):
         state = agent.state.copy()
         if random.uniform(0, 1) > exploration_rate:
             # TODO: select action based on nn prediction
-            action = np.argmax(model.predict(np.array([state_as_one_hot(state)])))
+            action = np.argmax(model.predict(np.array([state_as_one_hot(state)]))) + 1
         else:
-            action = agent.select_random_action()
+            action = random.randint(1, 2)
 
         reward = agent.run(action)
         new_state = agent.state.copy()
 
+        memory.push(state, action, new_state, reward)
+
+        experiences = memory.sample(min(len(memory), 10))
+        batch = Transition(*zip(*experiences))
+
         # TODO: update nn model weights here
-        target = reward + discount_rate * \
-            np.max(model.predict(np.array([state_as_one_hot(new_state)])))
-        target_vec = model.predict(np.array([state_as_one_hot(state)]))[0]
-        target_vec[action] = target
-        model.fit(np.array([state_as_one_hot(state)]),
-                  target_vec.reshape(-1, 4), epochs=1, verbose=False)
+        target = batch.reward + discount_rate * \
+            np.max(model.predict(np.array([state_as_one_hot(batch.next_state)])))
+        target_vec = model.predict(np.array([state_as_one_hot(batch.state)]))
+        target_vec[np.arange(len(target_vec)), np.array(batch.action)-1] = target
+        model.fit(np.array([state_as_one_hot(batch.state)]),
+                  target_vec.reshape(-1, 2), epochs=1, verbose=False)
 
 
         r_sum += reward
@@ -180,7 +195,6 @@ for episode in range(num_episodes):
         np.exp(-exploration_decay_rate * episode)
     reward_list.append(r_sum)
 
-    print()
     print("Mission ended")
     agent_host.sendCommand("chat /kill @p")
     # Mission has ended.
