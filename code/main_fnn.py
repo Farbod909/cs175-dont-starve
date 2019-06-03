@@ -1,5 +1,6 @@
 import agent as ag
 from replay import ReplayMemory
+from helpers import state_as_one_hot
 
 import sys
 import os
@@ -106,7 +107,13 @@ max_exploration_rate = 0.5
 min_exploration_rate = 0.01
 exploration_decay_rate = 0.001
 
-# TODO: define keras nn model here
+# define keras nn model here
+model = Sequential()
+model.add(InputLayer(batch_input_shape=(1, 54)))
+model.add(Dense(12, activation='sigmoid'))
+model.add(Dense(4, activation='linear'))
+model.compile(loss='mse', optimizer='adam', metrics=['mae'])
+
 
 reward_list = []
 
@@ -149,7 +156,8 @@ for episode in range(num_episodes):
     while not agent.finished:
         state = agent.state.copy()
         if random.uniform(0, 1) > exploration_rate:
-            # exploitation
+            # TODO: select action based on nn prediction
+            action = np.argmax(model.predict(np.array([state_as_one_hot(state)])))
         else:
             action = agent.select_random_action()
 
@@ -157,6 +165,13 @@ for episode in range(num_episodes):
         new_state = agent.state.copy()
 
         # TODO: update nn model weights here
+        target = reward + discount_rate * \
+            np.max(model.predict(np.array([state_as_one_hot(new_state)])))
+        target_vec = model.predict(np.array([state_as_one_hot(state)]))[0]
+        target_vec[action] = target
+        model.fit(np.array([state_as_one_hot(state)]),
+                  target_vec.reshape(-1, 4), epochs=1, verbose=False)
+
 
         r_sum += reward
     
