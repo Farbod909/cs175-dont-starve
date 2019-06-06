@@ -100,13 +100,13 @@ if agent_host.receivedArgument("help"):
     exit(0)
 
 
-num_episodes = 1000
+num_episodes = 100000
 
 discount_rate = 0.95
 exploration_rate = 0.5
 max_exploration_rate = 0.5
 min_exploration_rate = 0.01
-exploration_decay_rate = 0.001
+exploration_decay_rate = 0.000015
 
 # define keras nn model here
 model = Sequential()
@@ -121,6 +121,8 @@ model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 
 
 memory = ReplayMemory(100)
+rewards = open("rewards.txt", 'w')
+rewards.close()
 
 reward_list = []
 for episode in range(num_episodes):
@@ -193,7 +195,9 @@ for episode in range(num_episodes):
     exploration_rate = min_exploration_rate + \
         (max_exploration_rate - min_exploration_rate) * \
         np.exp(-exploration_decay_rate * episode)
-    reward_list.append(r_sum)
+    rewards = open("rewards.txt", 'a')
+    rewards.write("%1.2f\n" % r_sum)
+    rewards.close()
 
     print("Mission ended")
     agent_host.sendCommand("chat /kill @p")
