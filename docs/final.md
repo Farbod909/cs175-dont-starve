@@ -45,6 +45,8 @@ We do this by assigning every crop an ID and passing in our farm as a 3d matrix 
 There are two convolutional layers and 3 linear layers. 
 The specifications for each is described in the figure below: 
 
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/cnn_struct.PNG)
+
 #### Adding in two more crops
 
 Considering it's the network's job to find best possible placement of crops, we thought it'd be interesting to apply it on the 4-crop farm regardless of the fact that it wasn't able to completely solve the 2-crop version. 
