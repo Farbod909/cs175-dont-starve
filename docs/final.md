@@ -45,7 +45,7 @@ We do this by assigning every crop an ID and passing in our farm as a 3d matrix 
 There are two convolutional layers and 3 linear layers. 
 The specifications for each is described in the figure below: 
 
-![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/cnn_struct.PNG)
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/cnn_fig.PNG)
 
 #### Adding in two more crops
 
