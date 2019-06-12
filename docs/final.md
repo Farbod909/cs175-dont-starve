@@ -20,4 +20,4 @@ Considering the large number of states, we believe Deep Q-Learning is necessary 
 ### Convolutional Neural Network (CNN)
 Our CNN takes as input a matrix where each cell contains an integer that represents the crop planted there and the agents position. There are two convolutional layers and 3 linear layers. The specifications for each is described in the figure below: 
 
-$$k = P(a|b)$$
+$k = P(a|b)$
