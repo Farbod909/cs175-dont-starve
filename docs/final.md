@@ -45,13 +45,12 @@ This matrix is then passed to our CNN that holds 2 convolutional layers and 3 li
 
 ![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/cropped_cnn_fig.png)
 
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/2_crop_avg_reward.PNG)
+
 #### Adding in two more crops
 
 Considering it's the network's job to find best possible placement of crops, we thought it'd be interesting to apply it on the 4-crop farm regardless of the fact that it wasn't able to completely solve the 2-crop version. 
 It's particularly interesting because the added constraints make it difficult for a random algorithm to reach beyond (INSERT RANDOM HERE). 
 Therefore any decisions from the network that lead to that can be considered significant. 
 
-
-
-#avg reward over 1000 episodes with completely random actions
-#avg reward over 1000 episodes with cnn
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/4_crop_avg_reward.PNG)
