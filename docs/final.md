@@ -26,10 +26,22 @@ We can obtain a baseline of performance by observing how an algorithm that plant
 
 
 ### Feed Forward Neural Network
-In our previous report, we ran a feed-foward neural network with 5 hidden layers & 15 neurons per layer on our farm. 
+In our previous report, we trained a feed-foward neural network with 5 hidden layers & 15 neurons per layer on our farm over 1000 iterations. 
 We did not find that it was effective approach, but decided to make the network bigger and run it over 10,000 iterations to obtain stronger evidence that this type of network can't fit our problem set. 
+The average reward for the larger network with more training data is shown in the figure below:
+
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/r-list-10k-avg.png)
+
+Regardless of the fact that we gave it 10x more data and increased the number of layers and nodes, a feed forward neural network does not seem to be complex enough to fit our problem set. 
+As training progresses, it begins to do worse than random.
 
 ### Convolutional Neural Network (CNN)
+CNNs are best known for their high performance in machine vision field as the filters in the convolution layers aid it in recognizing patterns amongst the pixels. 
+Considering our task is to find plant formations that lead to maximum crop growth, a CNN has potential to fit the problem set if we translate the farm into a format that's similar to single-channel images.
+We do this by assigning every crop an ID and passing in our farm as a 3d matrix of the shape [1,3,3].
+
+
+
 Our CNN takes as input a matrix where each cell contains an integer that represents the crop planted there and the agents position. There are two convolutional layers and 3 linear layers. 
 The specifications for each is described in the figure below: 
 
