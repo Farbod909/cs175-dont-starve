@@ -45,7 +45,12 @@ This matrix is then passed to our CNN that holds 2 convolutional layers and 3 li
 
 ![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/cropped_cnn_fig.png)
 
+
+Plotting our average reward as we train, we find that the convolutional neural network does significantly better than the feed-forward neural network. 
+As we reach 10,000 episodes, the average reward starts reaching that of the random baseline. 
+It is, however, difficult to tell if it will do better than random and can only be proved by training the network over more episodes.
 ![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/2_crop_avg_reward.PNG)
+
 
 #### Adding in two more crops
 
