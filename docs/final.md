@@ -36,13 +36,13 @@ Regardless of the fact that we gave it 10x more data and increased the number of
 As training progresses, it begins to do worse than random.
 
 ### Convolutional Neural Network (CNN)
-CNNs are best known for their high performance in machine vision field as the filters in the convolution layers aid it in recognizing patterns amongst the pixels. 
+CNNs are best known for their high performance in machine vision as the filters in the convolution layers aid it in recognizing patterns amongst the pixels. 
 Considering our task is to find plant formations that lead to maximum crop growth, a CNN has potential to fit the problem set if we translate the farm into a format that's similar to single-channel images.
 We do this by assigning every crop an ID and passing in our farm as a 3d matrix of the shape [1,3,3].
 
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/Example%20Input.PNG)
 
-
-Our CNN takes as input a matrix where each cell contains an integer that represents the crop planted there and the agents position. There are two convolutional layers and 3 linear layers. 
+There are two convolutional layers and 3 linear layers. 
 The specifications for each is described in the figure below: 
 
 #### Adding in two more crops
