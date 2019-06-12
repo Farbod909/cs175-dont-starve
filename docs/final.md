@@ -24,6 +24,7 @@ Particularly, for each network, we iteratively update the Q-values by sampling f
 Our main metric of performance is average reward per episode.
 We can obtain a baseline of performance by observing how an algorithm that plants crops randomly performs under the constraints we set.
 
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/avg_random_reward.PNG)
 
 ### Feed Forward Neural Network
 In our previous report, we trained a feed-foward neural network with 5 hidden layers & 15 neurons per layer on our farm over 1000 iterations. 
