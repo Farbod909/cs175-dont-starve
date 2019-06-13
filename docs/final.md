@@ -47,11 +47,16 @@ This matrix is then passed to our CNN that holds 2 convolutional layers and 3 li
 ![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/cropped_cnn_fig.png)
 
 
-Plotting our average reward as we train, we find that the convolutional neural network does significantly better than the feed-forward neural network. 
+We trained our network using greedy-epsilon with epsilon set to .5. Plotting our average reward as we train with, we find that the convolutional neural network does significantly better than the feed-forward neural network. 
 As we reach 10,000 episodes, the average reward starts reaching that of the random baseline. 
 It is, however, difficult to tell if it will do better than random and can only be proved by training the network over more episodes.
 ![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/2_crop_avg_reward.PNG)
 
+To test our CNN we load the trained model and set exploration to 0.
+Unfortunately, when left to itself, the CNN consistently plants all wheat leading to zero reward.
+(ALL-WHEAT FARM)
+This is certainly odd behavior as there are a total of 94 all-wheat farm states out of 117018 total states in the training set.
+It's possible that our training data doesn't help the model generalize enough with the starting cells since reward is only given at the end. The decent performance during training, evidence for this as it has a random exploration aiding its crop choice. 
 
 #### Adding in two more crops
 
