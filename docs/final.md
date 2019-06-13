@@ -55,7 +55,7 @@ As we reach 10,000 episodes, the average reward starts reaching that of the rand
 It is, however, difficult to tell if it will do better than random and can only be proved by training the network over more episodes.
 
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/2_crop_avg_reward_with_title.PNG)
+<img src="https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/2_crop_avg_reward_with_title.PNG" width="560">
 
 
 To test our CNN, we load the trained model and set exploration to 0.
@@ -75,7 +75,7 @@ Therefore, any consistent decisions from the network that lead to high reward ca
 The following chart shows its performance over the training phase:
 
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/4_crop_avg_reward_with_title.PNG) 
+<img src="https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/4_crop_avg_reward_with_title.PNG" width="560">
 
 
 
@@ -83,7 +83,7 @@ For the testing phase, we set a decreasing exploration rate from .3 to 0 over th
 This network managed to get an average reward rate 3.5, which is a very stark from the 2-crop CNN's behavior.
 
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/4_crop_dec_test_avg_reward.PNG)
+<img src="https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/4_crop_dec_test_avg_reward.PNG" width="560">
 
 
 Further delving into this network's behaviour we find that it seems to cycle through many different strategies, including ones with high reward, 0 reward, or middling reward. 
