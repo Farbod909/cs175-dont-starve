@@ -75,7 +75,7 @@ Therefore, any consistent decisions from the network that lead to high reward ca
 The following chart shows its performance over the training phase:
 
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/4_crop_avg_reward.PNG) 
+![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/4_crop_avg_reward_with_title.PNG) 
 
 
 
