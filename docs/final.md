@@ -47,7 +47,7 @@ This matrix is then passed to our CNN that holds 2 convolutional layers and 3 li
 
 <img src="https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/Example%20Input.PNG" width="560">
 
-<img src=https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/cropped_cnn_fig.png width="560">
+<img src="https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/cropped_cnn_fig.png" width="560">
 
 
 We trained our network using greedy-epsilon with epsilon set to .5. Plotting our average reward as we train, we find that the convolutional neural network does significantly better than the feed-forward neural network. 
