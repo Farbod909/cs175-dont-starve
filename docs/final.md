@@ -1,7 +1,7 @@
 ## Project Summary
 Our environment is a simple grid farm that is ready for planting.
 Our agent's task is to determine which plants to crop at each particular cell of the farm.
-The challenge, however is that crops are required to be planted in certain configurations in order to grow at all. 
+The challenge, however, is that crops are required to be planted in certain configurations in order to grow at all. 
 Our agent would then have to learn how to plant these crops to make efficient use of its limited farming space.
 
 The required configurations are as follows:
