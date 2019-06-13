@@ -56,7 +56,7 @@ Unfortunately, when left to itself, the CNN consistently plants all wheat leadin
 ![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/2_crop_dec_test_avg_reward.PNG)
 
 
-This is certainly odd behavior as there are a total of 94 all-wheat farm states out of 117018 total states in the training set.
+This is certainly odd behavior as there are a total of 94 all-wheat farm states out of 117,018 total states in the training set.
 It's possible that our training data doesn't help the model generalize enough with the starting cells since reward is only given at the end. The decent performance during training, is evidence for this as it has a random exploration aiding its crop choice. 
 
 #### Adding in two more crops
