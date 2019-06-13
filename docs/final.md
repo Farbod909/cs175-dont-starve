@@ -83,4 +83,4 @@ Unfortunately, due to time constraints, we were not able to inspect the 2-crop C
 It's behavior did inspire us to try placing an exploration rate during the start of the test-phase for the 4-crop, so another possible inspection is to do the same for the 2-crop. 
 
 
-Other potential options is to provide negative rewards at the end if no crops grow. This way there is a strong differentiator between states where the agent is still cropping and states where plants failed to grow at all
+Other potential options is to provide negative rewards at the end if no crops grow. This way there is a strong differentiator between states where the agent is still cropping and states where plants failed to grow at all.
