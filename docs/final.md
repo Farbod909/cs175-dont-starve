@@ -12,8 +12,7 @@ The required configurations are as follows:
 
 With a small farm such as a 3x3 farm with only 2 crops in the agent's inventory, it is possible to apply tabular Q-learning as there are a total of 2^9 (512) possible states (2 crops per cell in the farm). 
 The tabular method, however, is not applicable when using all the crops as that gives us 4^9 (262,144). 
-Furthermore, a 3x3 is too small to even grow a Beetroot so a farm of at least 4x4 is needed. 
-Using all the crops, our task has, at minimum, 4^16 (4,294,967,296) possible states.
+Moreover, increasing the height and width of the farm by just one increases our possible states to 4^16 (4,294,967,296) possible states which is clearly infeasible with the tabular method.
 
 ## Approaches
 Considering the large number of states, we believe Deep Q-Learning is necessary to solve our task. 
