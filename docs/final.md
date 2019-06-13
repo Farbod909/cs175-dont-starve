@@ -63,5 +63,24 @@ It's possible that our training data doesn't help the model generalize enough wi
 Considering it's the network's job to find best possible placement of crops, we thought it'd be interesting to apply it on the 4-crop farm regardless of the fact that it wasn't able to completely solve the 2-crop version. 
 It's particularly interesting because the added constraints make it difficult for a random algorithm to reach beyond (INSERT RANDOM HERE). 
 Therefore any decisions from the network that lead to that can be considered significant. 
+The following chart shows its performance over the training phase:
 
 ![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/4_crop_avg_reward.PNG)
+
+
+For the Testing phase, we set a decreasing exploration rate from .3 to 0 over the first 200 episodes.
+This network managed to get an average reward rate 3.5, which is a very stark from the 2-crop CNN's behavior.
+![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/4_crop_dec_test_avg_reward.PNG)
+Further delving into this network's behaviour we find that it seems to cycle through many different strategies, including ones with high reward, 0 reward, or middling reward. 
+For example, every 20 or 30 episodes it will plant an all wheat farm and other times it will plant configurations that lead to some reward.
+
+## Summary & Conclusion 
+As was seen above, it seems that a CNN may be capable of fitting our problem set if given enough training time and possibly more layers. 
+During training, it was able to reach a decent amount of reward according to our baseline which is probably due to its filters which are known to recognize patterns. 
+It is odd though that, during the testing phase, the 2-crop CNN was unable to plant anything beyond the all-wheat farm while the 4-crop CNN managed to place crops in a variety of configurations. 
+There are many potential explanations for this beyond what we discussed above such as the significant increase of possible configurations from 2 crops to 4 crops. 
+Unfortunately, due to time constraints, we were not able to inspect the 2-crop CNN beyond checking if there were all-wheat farms in the training set. 
+It's behavior did inspire us to try placing an exploration rate during the start of the test-phase for the 4-crop, so another possible inspection is to do the same for the 2-crop. 
+
+
+Other potential options is to provide negative rewards at the end if no crops grow. This way there is a strong differentiator between states where the agent is still cropping and states where plants failed to grow at all
