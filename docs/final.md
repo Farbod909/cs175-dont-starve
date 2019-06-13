@@ -51,7 +51,7 @@ As we reach 10,000 episodes, the average reward starts reaching that of the rand
 It is, however, difficult to tell if it will do better than random and can only be proved by training the network over more episodes.
 ![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/2_crop_avg_reward.PNG)
 
-To test our CNN we load the trained model and set exploration to 0.
+To test our CNN, we load the trained model and set exploration to 0.
 Unfortunately, when left to itself, the CNN consistently plants all wheat leading to zero reward.
 ![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/2_crop_dec_test_avg_reward.PNG)
 This is certainly odd behavior as there are a total of 94 all-wheat farm states out of 117018 total states in the training set.
