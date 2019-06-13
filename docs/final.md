@@ -24,14 +24,14 @@ Particularly, for each network, we iteratively update the Q-values by sampling f
 Our main metric of performance is average reward per episode.
 We can obtain a baseline of performance by observing how an algorithm that plants crops randomly performs under the constraints we set.
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/blob/master/figures/avg_random_reward.PNG)
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/avg_random_reward.PNG)
 
 ### Feed Forward Neural Network
 In our previous report, we trained a feed-foward neural network with 5 hidden layers & 15 neurons per layer on our farm over 1000 iterations. 
 We did not find that it was effective approach, but decided to make the network bigger and run it over 10,000 iterations to obtain stronger evidence that this type of network can't fit our problem set. 
 The average reward for the larger network with more training data is shown in the figure below:
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/blob/master/figures/r-list-10k-avg.png)
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/r-list-10k-avg.png)
 
 Regardless of the fact that we gave it 10x more data and increased the number of layers and nodes, a feed forward neural network does not seem to be complex enough to fit our problem set. 
 As training progresses, it begins to do worse than random.
@@ -42,15 +42,15 @@ Considering our task is to find plant formations that lead to maximum crop growt
 We do this by assigning every crop an ID and passing in our farm as a 3d matrix of the shape [1,3,3].
 This matrix is then passed to our CNN that holds 2 convolutional layers and 3 linear layers.
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/blob/master/figures/Example%20Input.PNG)
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/Example%20Input.PNG)
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/blob/master/figures/cropped_cnn_fig.png)
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/cropped_cnn_fig.png)
 
 
 We trained our network using greedy-epsilon with epsilon set to .5. Plotting our average reward as we train, we find that the convolutional neural network does significantly better than the feed-forward neural network. 
 As we reach 10,000 episodes, the average reward starts reaching that of the random baseline. 
 It is, however, difficult to tell if it will do better than random and can only be proved by training the network over more episodes.
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/blob/master/figures/2_crop_avg_reward.PNG)
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/2_crop_avg_reward.PNG)
 
 To test our CNN we load the trained model and set exploration to 0.
 Unfortunately, when left to itself, the CNN consistently plants all wheat leading to zero reward.
@@ -65,7 +65,7 @@ It's particularly interesting because the added constraints make it difficult fo
 Therefore any decisions from the network that lead to that can be considered significant. 
 The following chart shows its performance over the training phase:
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/blob/master/figures/4_crop_avg_reward.PNG)
+![alt text](https://github.com/Farbod909/cs175-dont-starve/blob/master/figures/4_crop_avg_reward.PNG)
 
 
 For the Testing phase, we set a decreasing exploration rate from .3 to 0 over the first 200 episodes.
