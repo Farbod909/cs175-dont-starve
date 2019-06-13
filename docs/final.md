@@ -56,7 +56,7 @@ To test our CNN we load the trained model and set exploration to 0.
 Unfortunately, when left to itself, the CNN consistently plants all wheat leading to zero reward.
 (ALL-WHEAT FARM)
 This is certainly odd behavior as there are a total of 94 all-wheat farm states out of 117018 total states in the training set.
-It's possible that our training data doesn't help the model generalize enough with the starting cells since reward is only given at the end. The decent performance during training, evidence for this as it has a random exploration aiding its crop choice. 
+It's possible that our training data doesn't help the model generalize enough with the starting cells since reward is only given at the end. The decent performance during training, is evidence for this as it has a random exploration aiding its crop choice. 
 
 #### Adding in two more crops
 
