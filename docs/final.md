@@ -62,18 +62,18 @@ It's possible that our training data doesn't help the model generalize enough wi
 #### Adding in two more crops
 
 Considering it's the network's job to find best possible placement of crops, we thought it'd be interesting to apply it on the 4-crop farm regardless of the fact that it wasn't able to completely solve the 2-crop version. 
-It's particularly interesting because the added constraints make it difficult for a random algorithm to reach beyond. 
-Therefore any decisions from the network that lead to that can be considered significant. 
+It's particularly interesting because the added constraints make it difficult more difficult to achieve high reward but the new crops allow for many more configurations for the network to try. 
+Therefore any decisions from the network that lead to high reward can be considered significant. 
 The following chart shows its performance over the training phase:
 
 ![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/4_crop_avg_reward.PNG)
 
 
-For the Testing phase, we set a decreasing exploration rate from .3 to 0 over the first 200 episodes.
+For the testing phase, we set a decreasing exploration rate from .3 to 0 over the first 200 episodes.
 This network managed to get an average reward rate 3.5, which is a very stark from the 2-crop CNN's behavior.
 ![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/4_crop_dec_test_avg_reward.PNG)
 Further delving into this network's behaviour we find that it seems to cycle through many different strategies, including ones with high reward, 0 reward, or middling reward. 
-For example, every 20 or 30 episodes it will plant an all wheat farm and other times it will plant configurations that lead to some reward.
+For example, every 20 or 30 episodes it will plant an all wheat farm and other times it will plant configurations that lead to high reward.
 
 ## Summary & Conclusion 
 As was seen above, it seems that a CNN may be capable of fitting our problem set if given enough training time and possibly more layers. 
