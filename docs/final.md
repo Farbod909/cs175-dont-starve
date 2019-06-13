@@ -28,7 +28,7 @@ We can obtain a baseline of performance by observing how an algorithm that plant
 ### Feed Forward Neural Network
 In our previous report, we trained a feed-foward neural network with 5 hidden layers & 15 neurons per layer on our farm over 1000 iterations. 
 We did not find that it was an effective approach, but decided to make the network bigger and run it over 10,000 iterations to obtain stronger evidence that this type of network can't fit our problem set. 
-The average reward for the larger network with more training data is shown in the figure below:
+The average reward during training for the larger network is shown in the figure below:
 
 ![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/r-list-10k-avg.png)
 
