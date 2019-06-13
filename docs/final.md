@@ -60,10 +60,9 @@ This is certainly odd behavior as there are a total of 94 all-wheat farm states 
 It's possible that our training data doesn't help the model generalize enough with the starting cells since reward is only given at the end. The decent performance during training, is evidence for this as it has a random exploration aiding its crop choice. 
 
 #### Adding in two more crops
-
-We thought it'd be interesting to apply it on the 4-crop farm regardless of the fact that it wasn't able to completely solve the 2-crop version. 
-It's particularly interesting because the added constraints make it more difficult to achieve high reward but the new crops allow for many more configurations for the network to try. 
-Therefore any decisions from the network that lead to high reward can be considered significant. 
+We thought it'd be worthwhile to apply our CNN on the 4-crop farm regardless of the fact that it wasn't able to completely solve the 2-crop version. 
+We find it worthwhile because the added constraints make it more difficult to achieve high reward but the new crops allow for many more configurations for the network to try. 
+Therefore, any consistent decisions from the network that lead to high reward can be considered significant. 
 The following chart shows its performance over the training phase:
 
 ![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/4_crop_avg_reward.PNG)
