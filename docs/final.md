@@ -81,7 +81,11 @@ The following chart shows its performance over the training phase:
 
 For the testing phase, we set a decreasing exploration rate from .3 to 0 over the first 200 episodes.
 This network managed to get an average reward rate 3.5, which is a very stark from the 2-crop CNN's behavior.
+
+
 ![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/4_crop_dec_test_avg_reward.PNG)
+
+
 Further delving into this network's behaviour we find that it seems to cycle through many different strategies, including ones with high reward, 0 reward, or middling reward. 
 For example, every 20 or 30 episodes it will plant an all wheat farm and other times it will plant configurations that lead to high reward.
 
