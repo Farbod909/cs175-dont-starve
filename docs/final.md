@@ -80,7 +80,7 @@ During training, it was able to reach a decent amount of reward according to our
 It is odd though that, during the testing phase, the 2-crop CNN was unable to plant anything beyond the all-wheat farm while the 4-crop CNN managed to place crops in a variety of configurations. 
 There are many potential explanations for this beyond what we discussed above such as the significant increase of possible configurations from 2 crops to 4 crops. 
 Unfortunately, due to time constraints, we were not able to inspect the 2-crop CNN beyond checking if there were all-wheat farms in the training set. 
-It's behavior did inspire us to try placing an exploration rate during the start of the test-phase for the 4-crop, so another possible inspection is to do the same for the 2-crop. 
+It's behavior did inspire us to try placing an exploration rate during the start of the test-phase for the 4-crop, so another possible inspection is to do the same for the 2-crop (though we doubt it will cause a change in behavior). 
 
 
 Other potential options is to provide negative rewards at the end if no crops grow. This way there is a strong differentiator between states where the agent is still cropping and states where plants failed to grow at all.
