@@ -62,7 +62,7 @@ To test our CNN, we load the trained model and set exploration to 0.
 Unfortunately, when left to itself, the CNN consistently plants all wheat leading to zero reward.
 
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/2_crop_dec_test_avg_reward.PNG)
+<img src="https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/2_crop_dec_test_avg_reward.PNG" width="560">
 
 
 This is certainly odd behavior as there are a total of 94 all-wheat farm states out of 117,018 total states in the training set.
