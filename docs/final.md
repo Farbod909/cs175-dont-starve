@@ -45,8 +45,8 @@ Considering our task is to find plant formations that lead to maximum crop growt
 We do this by assigning every crop an ID and passing in our farm as a 3d matrix of the shape [1,3,3].
 This matrix is then passed to our CNN that holds 2 convolutional layers and 3 linear layers.
 
-
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/Example%20Input.PNG)
+<img src="https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/Example%20Input.PNG">
+![alt text]()
 
 ![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/cropped_cnn_fig.png)
 
