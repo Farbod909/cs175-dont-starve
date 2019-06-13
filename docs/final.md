@@ -1,3 +1,6 @@
+## Video
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vg_Oxh8irr8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Project Summary
 Our environment is a simple grid farm that is ready for planting.
 Our agent's task is to determine which plants to crop at each particular cell of the farm.
@@ -99,7 +102,3 @@ It's behavior did inspire us to try placing an exploration rate during the start
 
 
 Other potential options is to provide negative rewards at the end if no crops grow. This way there is a strong differentiator between states where the agent is still cropping and states where plants failed to grow at all.
-
-## Video
-If you'd like to see the networks in action, feel free to view the video below:
-<iframe width="560" height="315" src="https://www.youtube.com/embed/vg_Oxh8irr8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
