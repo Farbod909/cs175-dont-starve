@@ -61,8 +61,8 @@ It's possible that our training data doesn't help the model generalize enough wi
 
 #### Adding in two more crops
 
-Considering it's the network's job to find best possible placement of crops, we thought it'd be interesting to apply it on the 4-crop farm regardless of the fact that it wasn't able to completely solve the 2-crop version. 
-It's particularly interesting because the added constraints make it difficult more difficult to achieve high reward but the new crops allow for many more configurations for the network to try. 
+We thought it'd be interesting to apply it on the 4-crop farm regardless of the fact that it wasn't able to completely solve the 2-crop version. 
+It's particularly interesting because the added constraints make it more difficult to achieve high reward but the new crops allow for many more configurations for the network to try. 
 Therefore any decisions from the network that lead to high reward can be considered significant. 
 The following chart shows its performance over the training phase:
 
