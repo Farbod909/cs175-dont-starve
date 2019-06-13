@@ -102,3 +102,18 @@ It's behavior did inspire us to try placing an exploration rate during the start
 
 
 Other potential options is to provide negative rewards at the end if no crops grow. This way there is a strong differentiator between states where the agent is still cropping and states where plants failed to grow at all.
+
+## Resources Used
+http://deeplizard.com/learn/video/0bt0SjbS3xc
+
+https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html#training
+
+https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0
+
+https://adventuresinmachinelearning.com/reinforcement-learning-tutorial-python-keras/
+
+https://keras.io/layers/convolutional/
+
+https://machinelearningmastery.com/how-to-visualize-filters-and-feature-maps-in-convolutional-neural-networks/
+
+https://medium.com/intuitive-deep-learning/build-your-first-convolutional-neural-network-to-recognize-images-84b9c78fe0ce
