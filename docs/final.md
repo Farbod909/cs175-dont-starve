@@ -46,9 +46,8 @@ We do this by assigning every crop an ID and passing in our farm as a 3d matrix 
 This matrix is then passed to our CNN that holds 2 convolutional layers and 3 linear layers.
 
 <img src="https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/Example%20Input.PNG" width="560">
-![alt text]()
 
-![alt text](https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/cropped_cnn_fig.png)
+<img src=https://raw.githubusercontent.com/Farbod909/cs175-dont-starve/master/figures/cropped_cnn_fig.png width="960">
 
 
 We trained our network using greedy-epsilon with epsilon set to .5. Plotting our average reward as we train, we find that the convolutional neural network does significantly better than the feed-forward neural network. 
